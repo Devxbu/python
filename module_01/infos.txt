@@ -1,0 +1,5 @@
+Shebang -> dosyayi direkt executable yapinca calismasini saglar
+if __name__ == "__main__" -> dosyayi import edince main fonksiyonunun calismasini engeller.
+staticmethod -> sinifa ait olmayan ama sinif icinde tanimlanan metotlar. Siniftan bagimsizdir. self ve cls kullanmadan islem yaparlar.
+classmethod -> sinifin icerisinde yazilirlar ama siniftan bagimsizdirler. cls argumanini kullanirlar. cls sinifi temsil eder.
+super -> Bir sinifin ust sinifina ait ozelliklere ve metotlara erismek icin kullanilir.
