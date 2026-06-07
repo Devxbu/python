@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 
-def garden_operations(operation_number):
+def garden_operations(operation_number: int):
     print(f"Testing operation {operation_number}...")
     if operation_number == 0:
         return int("abc")
@@ -12,27 +12,23 @@ def garden_operations(operation_number):
     elif operation_number == 3:
         return "test" + 1
     else:
-        return
+        return None
 
 
-def test_error_types(operation_number):
+def test_error_types(operation_number: int) -> None:
     try:
         garden_operations(operation_number)
     except ValueError as v:
         print(f"Caught ValueError: {v}")
-        pass
     except ZeroDivisionError as z:
         print(f"Caught ZeroDivisionError: {z}")
-        pass
     except FileNotFoundError as f:
         print(f"Caught FileNotFoundError: {f}")
-        pass
     except TypeError as t:
         print(f"Caught TypeError: {t}")
-        pass
 
 
-if __name__ == "__main__":
+def main() -> None:
     print("=== Garden Error Types Demo ===")
     test_error_types(0)
     test_error_types(1)
@@ -40,3 +36,7 @@ if __name__ == "__main__":
     test_error_types(3)
     test_error_types(4)
     print("All error types tested successfully!")
+
+
+if __name__ == "__main__":
+    main()

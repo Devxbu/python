@@ -1,3 +1,5 @@
+--MODULE 2 EX 2 YE BAK--
+
 Python -> 00
 - Print 4 ana atributeye sahibptir: end, sep, file, flush
 
@@ -7,3 +9,12 @@ Python -> 01
 - super: Bir alt sinifin ust sinifina ait ozelliklere ve metotlara erismek icin kullanilir.
 - Static method: Sinifa ait olmayan ama sinif icinde tanimlanan metotlar. Siniftan bagimsizdir. self ve cls kullanmadan islem yaparlar. (if 3 > 5: return "x" tarzi seylerdir)
 - Class method: Sinifin icerisinde yazilirlar ama siniftan bagimsizdirlar. cls argumanini kullanirlar. cls sinifi temsil eder. Otomatik bir sekilde icerisinde bulundugu siniftan bir obje olusturmasi icin durur genellikle.
+
+Python -> 02
+- try icerisine yazilmis olan kodun icerisinde hata cikaracak bir sey olursa onu exception olarak aliriz. Bu sayede programimiz direk durmaz.
+- exception tryda yakaladigimiz hatalari tutar ve islem yapariz
+- raise hata cikartir
+- Pythonda Exception adinda ana bir hata classi vardir kendi classlarimizi bu classin alt classi olarak uretebiliriz.
+- classlarda __str__ print edileceginde ne gorunecegini gosterir
+- try/catch kisminda hata sinifinin ust sinifini yakalayarak da hatayi yakalayabiliriz
+
