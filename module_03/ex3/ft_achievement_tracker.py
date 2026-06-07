@@ -18,12 +18,12 @@ all_achievements = (
 )
 
 
-def gen_player_achievements():
+def gen_player_achievements() -> set[str]:
     count = random.randint(1, len(all_achievements))
     return set(random.sample(all_achievements, count))
 
 
-if __name__ == "__main__":
+def main() -> None:
     alice = gen_player_achievements()
     bob = gen_player_achievements()
     charlie = gen_player_achievements()
@@ -47,3 +47,7 @@ if __name__ == "__main__":
     print(f"Bob is missing: {set(all_achievements) - bob}")
     print(f"Charlie is missing: {set(all_achievements) - charlie}")
     print(f"Dylan is missing: {set(all_achievements) - dylan}")
+
+
+if __name__ == "__main__":
+    main()

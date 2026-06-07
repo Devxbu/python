@@ -2,43 +2,119 @@
 import sys
 
 
-def generate_inventory(cli):
+def parse_item(item: str) -> tuple[str | None, str | None]:
     key = ""
     value = ""
-    inventory = {}
-    for i in cli:
-        splited = i.split(":")
-        if len(splited) != 2:
-            print(f"Error - invalid parameter '{i}'")
-            continue
-        key = splited[0]
-        value = splited[1]
-        if key in inventory:
-            print(f"Redundant item '{key}' - discarding")
-            continue
-        try:
-            value = int(value)
-        except ValueError as e:
-            print(f"Quantity error for'{key}': {e}")
-            continue
-        inventory[key] = value
+    i = 0
+    found = False
 
-    return inventory
+    while i < len(item):
+        if item[i] == ":":
+            found = True
+            i += 1
+            break
+        key = key + item[i]
+        i += 1
+
+    if not found:
+        print(f"Error - invalid parameter '{item}'")
+        return None, None
+
+    while i < len(item):
+        value = value + item[i]
+        i += 1
+
+    return key, value
 
 
-if __name__ == "__main__":
+def to_int(s: str) -> int:
+    result = 0
+    i = 0
+
+    if len(s) == 0:
+        return 0
+
+    while i < len(s):
+        c = s[i]
+        if c < "0" or c > "9":
+            return 0
+        result = result * 10 + (ord(c) - ord("0"))
+        i += 1
+
+    return result
+
+
+def main() -> None:
     print("=== Inventory System Analysis ===")
+
     cli = sys.argv[1:]
-    inventory = generate_inventory(cli)
+    inventory: dict[str, int] = {}
+
+    i = 0
+    while i < len(cli):
+        item = cli[i]
+        key, value_str = parse_item(item)
+        if key is None or value_str is None:
+            i += 1
+            continue
+
+        keys_list = list(inventory.keys())
+        j = 0
+        duplicate = False
+        while j < len(keys_list):
+            if keys_list[j] == key:
+                duplicate = True
+                break
+            j += 1
+
+        if duplicate:
+            print(f"Redundant item '{key}' - discarding")
+            i += 1
+            continue
+
+        value = to_int(value_str)
+
+        inventory[key] = value
+        i += 1
+
+    if len(inventory) == 0:
+        print("Empty inventory")
+        return
+
     total = sum(inventory.values())
+
     print(f"Got inventory: {inventory}")
     print(f"Item list: {list(inventory.keys())}")
     print(f"Total quantity of {len(inventory)} items: {total}")
-    for i in inventory.items():
-        print(f"Item: {i[0]} represents {round((i[1] / total) * 100, 1)}%")
-    print(f"Item most abundant: {max(inventory, key=inventory.get)}", end=" ")
-    print(f"with quantity {max(inventory.values())}")
-    print(f"Item least abundant: {min(inventory, key=inventory.get)}", end=" ")
-    print(f"with quantity {min(inventory.values())}")
-    inventory["magic_item"] = 1
+
+    keys = list(inventory.keys())
+
+    most_key = keys[0]
+    least_key = keys[0]
+
+    i = 0
+    while i < len(keys):
+        key = keys[i]
+        value = inventory[key]
+
+        if value > inventory[most_key]:
+            most_key = key
+        if value < inventory[least_key]:
+            least_key = key
+
+        print(f"Item: {key} represents {round((value / total) * 100, 1)}%")
+
+        i += 1
+
+    print(f"Item most abundant: {most_key}", end=" ")
+    print(f"with quantity {inventory[most_key]}")
+
+    print(f"Item least abundant: {least_key}", end=" ")
+    print(f"with quantity {inventory[least_key]}")
+
+    inventory.update({"magic_item": 1})
     print(f"Updated inventory: {inventory}")
+
+
+if __name__ == "__main__":
+    main()
