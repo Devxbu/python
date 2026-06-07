@@ -1,0 +1,9 @@
+Python -> 00
+- Print 4 ana atributeye sahibptir: end, sep, file, flush
+
+Python -> 01
+- Shebang: Dosyayi direkt executable yapinca calismasini saglar
+- if __name__ == "__main__": Dosyayi import edince icerisindekilerin calismasini engeller.
+- super: Bir alt sinifin ust sinifina ait ozelliklere ve metotlara erismek icin kullanilir.
+- Static method: Sinifa ait olmayan ama sinif icinde tanimlanan metotlar. Siniftan bagimsizdir. self ve cls kullanmadan islem yaparlar. (if 3 > 5: return "x" tarzi seylerdir)
+- Class method: Sinifin icerisinde yazilirlar ama siniftan bagimsizdirlar. cls argumanini kullanirlar. cls sinifi temsil eder. Otomatik bir sekilde icerisinde bulundugu siniftan bir obje olusturmasi icin durur genellikle.

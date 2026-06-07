@@ -2,19 +2,19 @@
 
 
 class Plant:
-    def __init__(self, name, age, height):
+    def __init__(self, name: str, age: int, height: float):
         self.name = name
         self.age = age
         self.height = height
 
-    def show(self):
+    def show(self) -> str:
         return f"{self.name}: {round(self.height, 1)}cm, {self.age} days old"
 
 
-if __name__ == "__main__":
+def main() -> None:
     print("=== Plant Factory Output ===")
 
-    plants = [
+    plants: list[Plant] = [
         Plant("Rose", 30, 25.0),
         Plant("Oak", 365, 200.0),
         Plant("Cactus", 90, 5.0),
@@ -24,3 +24,7 @@ if __name__ == "__main__":
 
     for plant in plants:
         print(f"Created: {plant.show()}")
+
+
+if __name__ == "__main__":
+    main()
