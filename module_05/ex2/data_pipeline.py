@@ -4,16 +4,11 @@ from abc import ABC, abstractmethod
 from typing import Any, Protocol
 
 
-# =========================
-# BASE PROCESSOR
-# =========================
-
-
 class DataProcessor(ABC):
-    def __init__(self):
+    def __init__(self) -> None:
         self._data: list[str] = []
-        self._counter = 0
-        self._total_processed = 0
+        self._counter: int = 0
+        self._total_processed: int = 0
 
     @abstractmethod
     def validate(self, data: Any) -> bool:
@@ -41,12 +36,8 @@ class DataProcessor(ABC):
         return len(self._data)
 
 
-# =========================
-# PROCESSORS
-# =========================
-
-
 class NumericProcessor(DataProcessor):
+
     def validate(self, data: Any) -> bool:
         if isinstance(data, (int, float)):
             return True
@@ -66,6 +57,7 @@ class NumericProcessor(DataProcessor):
 
 
 class TextProcessor(DataProcessor):
+
     def validate(self, data: Any) -> bool:
         if isinstance(data, str):
             return True
@@ -85,9 +77,11 @@ class TextProcessor(DataProcessor):
 
 
 class LogProcessor(DataProcessor):
+
     def validate(self, data: Any) -> bool:
         def ok(d: Any) -> bool:
-            return isinstance(d, dict) and "log_level" in d and "log_message" in d
+            x = isinstance(d, dict) and "log_level" in d and "log_message" in d
+            return x
 
         if ok(data):
             return True
@@ -108,46 +102,32 @@ class LogProcessor(DataProcessor):
         self._total_processed += len(data)
 
 
-# =========================
-# EXPORT PLUGIN (Protocol)
-# =========================
-
-
 class ExportPlugin(Protocol):
     def process_output(self, data: list[tuple[int, str]]) -> None: ...
 
 
-# =========================
-# CSV PLUGIN
-# =========================
-
-
 class CSVExportPlugin:
+
     def process_output(self, data: list[tuple[int, str]]) -> None:
         print("CSV Output:")
         for _, value in data:
-            print(",".join(value.split(",")))
-
-
-# =========================
-# JSON PLUGIN
-# =========================
+            print(value)
 
 
 class JSONExportPlugin:
+
     def process_output(self, data: list[tuple[int, str]]) -> None:
         print("JSON Output:")
         items = {f"item_{i}": value for i, (_, value) in enumerate(data)}
-        print("{" + ", ".join(f'"{k}": "{v}"' for k, v in items.items()) + "}")
-
-
-# =========================
-# DATA STREAM
-# =========================
+        print("{")
+        for k, v in items.items():
+            print(f'  "{k}": "{v}"')
+        print("}")
 
 
 class DataStream:
-    def __init__(self):
+
+    def __init__(self) -> None:
         self._processors: list[DataProcessor] = []
 
     def register_processor(self, proc: DataProcessor) -> None:
@@ -192,11 +172,8 @@ class DataStream:
                 plugin.process_output(batch)
 
 
-# =========================
-# TEST
-# =========================
+def main() -> None:
 
-if __name__ == "__main__":
     print("=== Code Nexus - Data Pipeline ===")
 
     stream = DataStream()
@@ -217,7 +194,7 @@ if __name__ == "__main__":
         "Hello world",
         [3.14, -1, 2.71],
         [
-            {"log_level": "WARNING", "log_message": "Telnet access! Use ssh instead"},
+            {"log_level": "WARNING", "log_message": "Use ssh instead"},
             {"log_level": "INFO", "log_message": "User wil is connected"},
         ],
         42,
@@ -241,7 +218,7 @@ if __name__ == "__main__":
         ["I love AI", "LLMs are wonderful", "Stay healthy"],
         [
             {"log_level": "ERROR", "log_message": "500 server crash"},
-            {"log_level": "NOTICE", "log_message": "Certificate expires in 10 days"},
+            {"log_level": "NOTICE", "log_message": "expires in 10 days"},
         ],
         [32, 42, 64, 84, 128, 168],
         "World hello",
@@ -258,3 +235,7 @@ if __name__ == "__main__":
     stream.output_pipeline(5, json_plugin)
 
     stream.print_processors_stats()
+
+
+if __name__ == "__main__":
+    main()
